@@ -110,7 +110,6 @@ const SelectQuestion = () => {
     } catch (error) {
       console.error(error)
     }
-    // Gọi setLoading với giá trị false để ẩn thông báo loading
     setLoading(false)
   }
 
@@ -119,16 +118,26 @@ const SelectQuestion = () => {
   const handleStart = () => {
     setShowInputs(true)
   }
+  useEffect(() => {
+    if (loading) {
+      const timeoutId = setTimeout(() => {
+        navigate('/answer')
+      }, 2000)
+      return () => clearTimeout(timeoutId)
+    }
+  }, [loading])
+
   const clickLoading = () => {
     setLoading(true)
-    alert('Loading')
-    setTimeout(() => {
-      setLoading(false)
-      navigate('/answer')
-    }, 2000)
   }
   return (
     <div className='container'>
+      {loading && (
+        <div className='loading'>
+          <div className='spinner'></div>
+          <p>Loading...</p>
+        </div>
+      )}
       <div className='title'>
         <h3>Yes No WTF GAME</h3>
         <h3>Good Luck</h3>
