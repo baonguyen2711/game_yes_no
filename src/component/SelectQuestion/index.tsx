@@ -13,7 +13,7 @@ const SelectQuestion = () => {
   const [results, setResults] = useState<{ [key: string]: string[] }>({})
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0)
   const [apiAnswer, setApiAnswer] = useState<string>('')
-
+  const [loading, setLoading] = useState(false)
   useEffect(() => {
     const fetchAPIAnswer = async () => {
       try {
@@ -88,7 +88,7 @@ const SelectQuestion = () => {
     }
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const currentResult = results[storedData[currentPlayerIndex]][currentRoundIndex]
     if (currentResult === 'Not selected') {
@@ -104,6 +104,14 @@ const SelectQuestion = () => {
         setCurrentPlayerIndex(currentPlayerIndex + 1)
       }
     }
+    try {
+      await axios.post('/api/submit', results)
+      navigate('/answer')
+    } catch (error) {
+      console.error(error)
+    }
+    // Gọi setLoading với giá trị false để ẩn thông báo loading
+    setLoading(false)
   }
 
   localStorage.setItem('results', JSON.stringify(results))
@@ -111,7 +119,14 @@ const SelectQuestion = () => {
   const handleStart = () => {
     setShowInputs(true)
   }
-
+  const clickLoading = () => {
+    setLoading(true)
+    alert('Loading')
+    setTimeout(() => {
+      setLoading(false)
+      navigate('/answer')
+    }, 2000)
+  }
   return (
     <div className='container'>
       <div className='title'>
@@ -145,11 +160,9 @@ const SelectQuestion = () => {
               </div>
             ))}
           </form>
-          <Link to='/answer'>
-            <button style={{ background: '#FF479A', color: '#FFF4F9' }} type='submit'>
-              Submit
-            </button>
-          </Link>
+          <button onClick={clickLoading} style={{ background: '#FF479A', color: '#FFF4F9' }} type='submit'>
+            Submit
+          </button>
         </div>
       )}
 
