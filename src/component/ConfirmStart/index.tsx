@@ -1,7 +1,7 @@
 import TextHome from '../TextHome'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
-
+import './style.scss'
 const ConfirmStart = () => {
   const [storedData, setStoredData] = useState(JSON.parse(localStorage.getItem('allData') || ''))
   const [inputCount, setInputCount] = useState(0)
@@ -30,49 +30,49 @@ const ConfirmStart = () => {
     const newData = [...storedData]
     const deletedData = newData.splice(index, 1)[0]
     localStorage.setItem('allData', JSON.stringify(newData))
-    localStorage.removeItem(deletedData)
+    localStorage.removeItem('data_' + deletedData.id) // Sửa lỗi ở đây
     setStoredData(newData.filter((item) => item !== deletedData))
   }
   return (
-    <div>
-      <div>
-        <TextHome />
-        <div>
-          <table>
-            <thead>
-              <tr>
-                <th>STT</th>
-                <th>Player Name</th>
+    <div className='container'>
+      <TextHome />
+      <div className='content'>
+        <table className='table'>
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Player Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            {storedData.map((playerName: any, index: number) => (
+              <tr key={index}>
+                <td>
+                  {index + 1}
+                  <button onClick={() => handleDelete(index)}>Delete</button>
+                </td>
+                <td>{playerName}</td>
               </tr>
-            </thead>
-            <tbody>
-              {storedData.map((playerName: any, index: number) => (
-                <tr key={index}>
-                  <td>
-                    {index + 1}
-                    <button onClick={() => handleDelete(index)}>Delete</button>
-                  </td>
-                  <td>{playerName}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <div>
+            ))}
+          </tbody>
+        </table>
+        <div className='add-more'>
           <Link to='/new-player'>
             <button>Add more player</button>
           </Link>
         </div>
-        <div>
+        <div className='total'>
           <h5>Total</h5>
-          <input type='text' onChange={handleInputChange} />
-          <Link to='/select-question'>
-            <button onClick={() => setShowInputs(true)}>Start</button>
-          </Link>
+          <div className='total__input'>
+            <input type='text' onChange={handleInputChange} />
+            <Link to='/select-question'>
+              <button onClick={() => setShowInputs(true)}>Start</button>
+            </Link>
+          </div>
         </div>
-        {showInputs && <div>{renderInputs()}</div>}
       </div>
+
+      {showInputs && <div>{renderInputs()}</div>}
     </div>
   )
 }

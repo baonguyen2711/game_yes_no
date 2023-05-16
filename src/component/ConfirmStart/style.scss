@@ -1,0 +1,39 @@
+.content {
+    button {
+        width: 100%;
+        background: #686868;
+        color: #f4f4f4;
+        border-radius: 0;
+      }
+  margin: 40px 450px 0;
+  .table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .table th,
+  .table td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+    text-align: center;
+    text-transform: capitalize;
+  }
+  
+  .total {
+    h5 {
+      margin: 30px 0 10px 0;
+      text-align: left;
+    }
+    &__input {
+      display: flex;
+    }
+    input {
+      width: 100%;
+    }
+    button {
+
+    }
+  }
+}

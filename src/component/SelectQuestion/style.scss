@@ -1,0 +1,26 @@
+body {
+min-height: unset !important;
+min-width: unset !important;
+display: unset !important;
+text-transform: capitalize;
+}
+.title {
+display: flex;
+justify-content: space-between;
+}
+.name {
+    text-align: left;
+}
+.round {
+    h4 {
+        text-align: left;
+    }
+    form {
+        display: flex;
+        justify-content: space-around;
+margin-bottom: 50px;
+    }
+    button {
+        margin-right: 10px;
+    }
+}

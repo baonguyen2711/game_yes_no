@@ -12,18 +12,16 @@ import Answer from './component/Answer'
 function App() {
   const [players, setPlayers] = useState<any>(localStorage.getItem('name') || [])
   return (
-    <div>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<HomePage />} />
-          <Route path='/player' element={<BlankPlayer />} />
-          <Route path='/new-player' element={<NewPlayer players={players} setPlayers={setPlayers} />} />
-          <Route path='/name-player' element={<ConfirmStart />} />
-          <Route path='/select-question' element={<SelectQuestion />} />
-          <Route path='/answer' element={<Answer />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<HomePage />} />
+        <Route path='/player' element={<BlankPlayer />} />
+        <Route path='/new-player' element={<NewPlayer players={players} setPlayers={setPlayers} />} />
+        <Route path='/name-player' element={<ConfirmStart />} />
+        <Route path='/select-question' element={<SelectQuestion />} />
+        <Route path='/answer' element={<Answer />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

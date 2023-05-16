@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
+import { useNavigate } from 'react-router-dom'
+import './style.scss'
 const SelectQuestion = () => {
   const navigate = useNavigate()
   const storedData = JSON.parse(localStorage.getItem('allData') || '[]')
@@ -77,7 +79,6 @@ const SelectQuestion = () => {
     }
     if (currentPlayerIndex === storedData.length - 1) {
       if (currentRoundIndex === inputs.length - 1) {
-        navigate('/answer')
       } else {
         setCurrentRoundIndex(currentRoundIndex + 1)
         setCurrentPlayerIndex(0)
@@ -89,15 +90,19 @@ const SelectQuestion = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (currentPlayerIndex === storedData.length - 1) {
-      if (currentRoundIndex === inputs.length - 1) {
-        navigate('/answer')
-      } else {
-        setCurrentRoundIndex(currentRoundIndex + 1)
-        setCurrentPlayerIndex(0)
-      }
+    const currentResult = results[storedData[currentPlayerIndex]][currentRoundIndex]
+    if (currentResult === 'Not selected') {
+      return
     } else {
-      setCurrentPlayerIndex(currentPlayerIndex + 1)
+      if (currentPlayerIndex === storedData.length - 1) {
+        if (currentRoundIndex === inputs.length - 1) {
+        } else {
+          setCurrentRoundIndex(currentRoundIndex + 1)
+          setCurrentPlayerIndex(0)
+        }
+      } else {
+        setCurrentPlayerIndex(currentPlayerIndex + 1)
+      }
     }
   }
 
@@ -108,34 +113,66 @@ const SelectQuestion = () => {
   }
 
   return (
-    <div>
-      <div>
+    <div className='container'>
+      <div className='title'>
         <h3>Yes No WTF GAME</h3>
         <h3>Good Luck</h3>
       </div>
-      <div>
+      <div className='name'>
         <h3>Players: {storedData.join(', ')}</h3>
       </div>
       {showInputs && (
-        <div>
-          <h4>{storedData[currentPlayerIndex]}</h4>
+        <div className='round'>
+          <h4>Player: {storedData[currentPlayerIndex]}</h4>
           <form onSubmit={handleSubmit}>
-            {inputs[currentRoundIndex]}
-            <div>
-              <button onClick={() => handleAnswer('Yes', storedData[currentPlayerIndex], currentRoundIndex)}>
-                Yes
-              </button>
-              <button onClick={() => handleAnswer('No', storedData[currentPlayerIndex], currentRoundIndex)}>No</button>
-            </div>
-            <button type='submit'>Submit</button>
+            {inputs.map((input, index) => (
+              <div key={index}>
+                {input}
+                <div>
+                  <button
+                    style={{ color: '#2DA840' }}
+                    onClick={() => handleAnswer('Yes', storedData[currentPlayerIndex], index)}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    style={{ color: '#FF0000' }}
+                    onClick={() => handleAnswer('No', storedData[currentPlayerIndex], index)}
+                  >
+                    No
+                  </button>
+                </div>
+              </div>
+            ))}
           </form>
+          <Link to='/answer'>
+            <button style={{ background: '#FF479A', color: '#FFF4F9' }} type='submit'>
+              Submit
+            </button>
+          </Link>
         </div>
       )}
+
       {!showInputs && (
         <div>
           <button onClick={handleStart}>Start</button>
         </div>
       )}
+      {Object.keys(results)
+        .sort()
+        .reverse()
+        .map((player) => (
+          <div key={player}>
+            <h4>Player: {player}</h4>
+            <div>
+              {results[player].map((result, index) => (
+                <div key={index}>
+                  Round {index + 1}: {result}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
     </div>
   )
 }

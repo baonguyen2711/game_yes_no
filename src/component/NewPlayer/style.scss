@@ -1,0 +1,21 @@
+.form {
+  margin: 100px 400px 0;
+  border: 1px solid;
+  &__input {
+    text-align: left;
+    margin-left: 60px;
+    h5 {
+        margin: 10px 0 0 0;
+    }
+    input {
+        width: calc(100% - 60px);
+        margin-bottom: 20px;
+    }
+    button {
+        width: 30%;
+        margin-right: 10px;
+        border: 1px solid;
+        margin-bottom: 30px;
+    }
+  }
+}

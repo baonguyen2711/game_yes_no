@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
-
+import './style.scss'
 const Answer = () => {
   const [results, setResults] = useState<{ [key: string]: string[] }>({})
   const [winners, setWinners] = useState<{ [key: string]: string[] }>({})
+  const storedData = JSON.parse(localStorage.getItem('allData') || '[]')
+
   const [finalWinner, setFinalWinner] = useState<string>('')
   useEffect(() => {
     const savedResults = JSON.parse(localStorage.getItem('results') || '{}')
@@ -15,7 +17,7 @@ const Answer = () => {
     Object.entries(results).forEach(([player, result]) => {
       result.forEach((r, i) => {
         if (r.includes('(Win!)')) {
-          const winnerName = player // Lưu tên người chơi là người chiến thắng
+          const winnerName = player
           if (!roundWinners[`Round ${i + 1}`]) {
             roundWinners[`Round ${i + 1}`] = []
           }
@@ -44,36 +46,34 @@ const Answer = () => {
     })
     setFinalWinner(finalWinnerName)
   }, [results])
-
   return (
-    <div>
-      <h3>Results:</h3>
-      {Object.keys(results)
-        .sort()
-        .map((player) => (
-          <div key={player}>
-            <h4>{player}</h4>
-            <ul>
-              {results[player].map((result, index) => (
-                <li key={index}>{result}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      <h3>Winners:</h3>
-      {Object.keys(winners)
-        .sort()
+    <div className='container'>
+      <div className='title'>
+        <h3>Yes No WTF GAME</h3>
+        <h3>Good Luck</h3>
+      </div>
+      <div className='name'>
+        <h3>Players: {storedData.join(', ')}</h3>
+      </div>
 
-        .map((round) => (
-          <div key={round}>
-            <h4>{round}</h4>
-            <ul>
-              {winners[round].sort().map((winner, index) => (
-                <li key={index}>{winner}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
+      <div className='winner'>
+        {Object.keys(winners)
+          .sort()
+          .map((round) => (
+            <div key={round}>
+              <h4>{round}</h4>
+              {winners[round] && winners[round].length === 0 ? (
+                <p>none</p>
+              ) : (
+                <div className='player'>
+                  <h4>Winner: </h4>
+
+                  <p>{winners[round].sort().join(', ')}</p>
+                </div>
+              )}
+            </div>
+          ))}
+      </div>
     </div>
   )
 }

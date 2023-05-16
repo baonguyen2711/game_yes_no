@@ -1,7 +1,7 @@
 import TextHome from '../TextHome'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import './style.scss'
 interface Props {
   players: any
   setPlayers: React.Dispatch<any>
@@ -23,13 +23,14 @@ const NewPlayer: React.FC<Props> = (props) => {
   }
 
   return (
-    <div>
-      <div>
-        <TextHome />
-        <div>
-          <h3>Please enter a new name</h3>
+    <div className='container'>
+      <TextHome />
+      <div className='form'>
+        <h3>Please enter a new name</h3>
+        <hr />
+        <div className='form__input'>
           <h5>New Game</h5>
-          <input type='text' onChange={(e) => setName(e.target.value)} />
+          <input type='text' onChange={(e) => setName(e.target.value)} /> <br />
           <button onClick={handleAdd}>OK</button>
           <button>Cancel</button>
         </div>
