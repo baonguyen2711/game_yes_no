@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
-
 import { useNavigate } from 'react-router-dom'
 import './style.scss'
 const SelectQuestion = () => {
@@ -129,6 +127,8 @@ const SelectQuestion = () => {
 
   const clickLoading = () => {
     setLoading(true)
+    const currentDate = new Date().toLocaleString()
+    localStorage.setItem('date', currentDate)
   }
   return (
     <div className='container'>

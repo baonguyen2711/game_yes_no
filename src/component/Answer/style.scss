@@ -10,9 +10,18 @@ body {
 .winner {
     display: flex;
     justify-content: space-around;
+    margin-bottom: 100px;
+    
 }
 .player {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.button {
+    button {
+        border-radius: 0;
+        background: #1DA131;
+        color: #F4FBF5;
+    }
 }

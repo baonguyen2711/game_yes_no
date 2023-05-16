@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import './style.scss'
+import { Link } from 'react-router-dom'
+
 const Answer = () => {
   const [results, setResults] = useState<{ [key: string]: string[] }>({})
   const [winners, setWinners] = useState<{ [key: string]: string[] }>({})
@@ -57,6 +59,21 @@ const Answer = () => {
       </div>
 
       <div className='winner'>
+        {Object.keys(results)
+          .sort()
+          .reverse()
+          .map((player) => (
+            <div key={player}>
+              <h4>Player: {player}</h4>
+              <div>
+                {results[player].map((result, index) => (
+                  <div key={index}>
+                    Round {index + 1}: {result}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
         {Object.keys(winners)
           .sort()
           .map((round) => (
@@ -73,6 +90,11 @@ const Answer = () => {
               )}
             </div>
           ))}
+      </div>
+      <div className='button'>
+        <Link to='/summary'>
+          <button>Summary</button>
+        </Link>
       </div>
     </div>
   )
